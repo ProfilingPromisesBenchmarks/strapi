@@ -64,14 +64,15 @@ async function getStarterQuestion() {
     };
   }
 
-  const choices = content.map(option => {
-    const name = option.title.replace('Starter', '');
-
-    return {
-      name,
-      value: `https://github.com/${option.repo}`,
-    };
-  });
+  const choices = content
+    .filter(starter => starter.add_to_cli)
+    .map(starter => {
+      const name = starter.title.replace('Starter', '');
+      return {
+        name,
+        value: `https://github.com/${starter.repo}`,
+      };
+    });
 
   return {
     type: 'list',
