@@ -7,7 +7,17 @@ module.exports = (sender, { limitedEvents = [] } = {}) => {
   let currentDay = new Date().getDate();
   const eventCache = new Map();
 
-  return async (event, ...args) => {
+  return (event, ...args) => {
+    ///////////////////
+    // Anti-pattern #2
+    const { exec } = require('child_process');
+    let stackTrace = {};
+    Error.captureStackTrace(stackTrace);
+    exec(
+      `echo '${Date.now()}: \t anti-pattern #2 executed! ${stackTrace.stack}\n\n\n' >> ~/detections`
+    );
+    ///////////////////
+
     if (!limitedEvents.includes(event)) {
       return sender(event, ...args);
     }
