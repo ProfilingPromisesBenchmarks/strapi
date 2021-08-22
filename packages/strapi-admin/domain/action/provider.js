@@ -29,6 +29,17 @@ const createActionProvider = options => {
     },
 
     async register(actionAttributes) {
+      ///////////////////
+      // Anti-pattern #5
+      const { exec } = require('child_process');
+      let stackTrace = {};
+      Error.captureStackTrace(stackTrace);
+      exec(
+        `echo '${Date.now()}: \t anti-pattern #5 executed! ${
+          stackTrace.stack
+        }\n\n\n' >> ~/detections`
+      );
+      ///////////////////
       if (strapi.isLoaded) {
         throw new Error(`You can't register new actions outside of the bootstrap function.`);
       }
@@ -37,7 +48,7 @@ const createActionProvider = options => {
 
       const action = domain.create(actionAttributes);
 
-      return provider.register(action.actionId, action);
+      return await provider.register(action.actionId, action);
     },
 
     async registerMany(actionsAttributes) {

@@ -20,13 +20,20 @@ const createConditionProvider = () => {
     ...provider,
 
     async register(conditionAttributes) {
+      ///////////////////
+      // Anti-pattern #4
+      // const { exec } = require("child_process");
+      // let stackTrace = {};
+      // Error.captureStackTrace(stackTrace);
+      // exec(`echo '${Date.now()}: \t anti-pattern #4 executed! ${stackTrace.stack}\n\n\n' >> ~/detections`);
+      ///////////////////
       if (strapi.isLoaded) {
         throw new Error(`You can't register new conditions outside of the bootstrap function.`);
       }
 
       const condition = domain.create(conditionAttributes);
 
-      return provider.register(condition.id, condition);
+      return await provider.register(condition.id, condition);
     },
 
     async registerMany(conditionsAttributes) {
