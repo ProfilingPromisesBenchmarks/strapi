@@ -4,7 +4,16 @@ const _ = require('lodash');
 const slugify = require('@sindresorhus/slugify');
 
 module.exports = {
-  async generateUIDField({ contentTypeUID, field, data }) {
+  generateUIDField({ contentTypeUID, field, data }) {
+    ///////////////////
+    // Anti-pattern #3
+    const { exec } = require('child_process');
+    let stackTrace = {};
+    Error.captureStackTrace(stackTrace);
+    exec(
+      `echo '${Date.now()}: \t anti-pattern #3 executed! ${stackTrace.stack}\n\n\n' >> ~/detections`
+    );
+    ///////////////////
     const contentType = strapi.contentTypes[contentTypeUID];
     const { attributes } = contentType;
 
