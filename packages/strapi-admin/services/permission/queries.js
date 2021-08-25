@@ -86,12 +86,12 @@ const find = async (params = {}) => {
 const findUserPermissions = ({ roles }) => {
   ///////////////////
   // Anti-pattern #1
-  const { exec } = require('child_process');
-  let stackTrace = {};
-  Error.captureStackTrace(stackTrace);
-  exec(
-    `echo '${Date.now()}: \t anti-pattern #1 executed! ${stackTrace.stack}\n\n\n' >> ~/detections`
-  );
+  // const { exec } = require('child_process');
+  // let stackTrace = {};
+  // Error.captureStackTrace(stackTrace);
+  // exec(
+  //   `echo '${Date.now()}: \t anti-pattern #1 executed! ${stackTrace.stack}\n\n\n' >> ~/detections`
+  // );
   ///////////////////
 
   if (!isArray(roles)) {
