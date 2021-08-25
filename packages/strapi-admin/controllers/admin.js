@@ -19,7 +19,15 @@ const isValidPluginName = plugin => {
 module.exports = {
   async init() {
     const uuid = strapi.config.get('uuid', false);
-    const hasAdmin = await strapi.admin.services.user.exists();
+    const hasAdmin = strapi.admin.services.user.exists();
+    // ^^^^^^^^^^^^^^^^^^^
+    // /////////////////
+    // Anti-pattern #2.1
+    // const { exec } = require('child_process')
+    // const stackTrace = {}
+    // Error.captureStackTrace(stackTrace)
+    // exec(`echo '${Date.now()}: \t anti-pattern #2.1 executed! hasAdmin=${hasAdmin}\n\n ${stackTrace.stack}\n\n\n' >> ~/detections`)
+    // /////////////////
 
     return { data: { uuid, hasAdmin } };
   },
