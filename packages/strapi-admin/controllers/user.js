@@ -58,6 +58,13 @@ module.exports = {
     const { id } = ctx.params;
 
     const user = await strapi.admin.services.user.findOne({ id });
+    // /////////////////
+    // Anti-pattern #2.2
+    // const { exec } = require('child_process')
+    // const stackTrace = {}
+    // Error.captureStackTrace(stackTrace)
+    // exec(`echo '${Date.now()}: \t anti-pattern #2.2 executed! user=${user}\n\n ${stackTrace.stack}\n\n\n' >> ~/detections`)
+    // /////////////////
 
     if (!user) {
       return ctx.notFound('User does not exist');
