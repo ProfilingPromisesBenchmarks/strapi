@@ -62,7 +62,15 @@ module.exports = conditionProvider => {
      * @returns {Promise<Ability>}
      */
     async generateUserAbility(user, options) {
-      const permissions = await getService('permission').findUserPermissions(user);
+      // /////////////////
+      // Anti-pattern #2.3
+      // const { exec } = require('child_process')
+      // const stackTrace = {}
+      // Error.captureStackTrace(stackTrace)
+      // /////////////////
+      const permissions = getService('permission').findUserPermissions(user);
+      // exec(`echo '${Date.now()}: \t anti-pattern #2.3 executed! permissions=${permissions}\n\n ${stackTrace.stack}\n\n\n' >> ~/detections`)
+
       const abilityCreator = this.generateAbilityCreatorFor(user);
 
       return abilityCreator(permissions, options);
