@@ -27,6 +27,8 @@ const {
   createWillRegisterContext,
 } = require('./engine-hooks');
 
+const { performance } = require('perf_hooks');
+
 const allowedOperations = [
   '$or',
   '$and',
@@ -195,11 +197,15 @@ module.exports = conditionProvider => {
 
       /**/
 
-      const evaluatedConditions = await Promise.resolve(conditions)
+      const b = performance.now();
+      /* const evaluatedConditions = await Promise.resolve(conditions)
         .then(resolveConditions)
         .then(filterValidConditions)
         .then(evaluateConditions)
-        .then(filterValidResults);
+        .then(filterValidResults); */
+      const evaluatedConditions = filterValidResults(await evaluateConditions(filterValidConditions(resolveConditions(conditions))));
+      const a = performance.now();
+      console.log('chained call time: ' + (a - b));
 
       // Utils
       const resultPropEq = propEq('result');
